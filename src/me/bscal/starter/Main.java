@@ -9,6 +9,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 import me.bscal.starter.listeners.KitPvpListener;
 import me.bscal.starter.listeners.SoupListener;
+import me.bscal.starter.ui.GUIManager;
 
 public class Main extends JavaPlugin {
 
@@ -24,6 +25,7 @@ public class Main extends JavaPlugin {
 		PluginManager pm = Bukkit.getServer().getPluginManager();
 		pm.registerEvents(new KitPvpListener(), this);
 		pm.registerEvents(new SoupListener(), this);
+		pm.registerEvents(new GUIManager(), this);
 		
 		 getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable()
 		    {
