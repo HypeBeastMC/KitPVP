@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import me.bscal.starter.listeners.KitPvpListener;
+import me.bscal.starter.listeners.SoupListener;
 
 public class Main extends JavaPlugin {
 
@@ -21,6 +22,7 @@ public class Main extends JavaPlugin {
 		getCommand("join").setExecutor(es);
 		PluginManager pm = Bukkit.getServer().getPluginManager();
 		pm.registerEvents(new KitPvpListener(), this);
+		pm.registerEvents(new SoupListener(), this);
 	}
 	
 	static public Plugin getPluginIntance() {
