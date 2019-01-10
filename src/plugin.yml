@@ -1,6 +1,6 @@
 name: KitPvp
 version: 1.0.0
-main: me.bscal.stater.Main
+main: me.bscal.starter.Main
 description: KitPVP plugin
 author: bscal
 commands:

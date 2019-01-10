@@ -13,7 +13,7 @@ public class EventStarter implements CommandExecutor {
 
 	private final String START_COMMAND_NAME = "events";
 	private final String JOIN_COMMAND_NAME = "join";
-	private final int QUEUE_TIME = 30;
+	private final int QUEUE_TIME = 30 * 20;
 	
 	private boolean isOpen = false;
 	private ArrayList<Player> queue = new ArrayList<Player>();
