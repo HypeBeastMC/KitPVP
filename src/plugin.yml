@@ -10,6 +10,9 @@ commands:
   join:
     usage: /<command>
     description: Joins an event
+  start:
+    usage: /<command>
+    description: test
 permissions:
   kitpvp.admin:
     default: op

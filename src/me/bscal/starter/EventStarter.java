@@ -3,11 +3,15 @@ package me.bscal.starter;
 import java.util.ArrayList;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import me.bscal.starter.events.Soccer;
+import me.bscal.starter.events.SoccerManager;
 
 public class EventStarter implements CommandExecutor {
 
@@ -23,6 +27,10 @@ public class EventStarter implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdString, String[] args) {
+		if (cmd.getName().equalsIgnoreCase("start")) {
+			SoccerManager.soccerInstances.add(new Soccer(((Player) sender).getLocation()));
+			Bukkit.getLogger().info("started");
+		}
 		if (cmd.getName().equalsIgnoreCase(START_COMMAND_NAME)) {
 			// Set this to whatever permission you want
 			if (sender.hasPermission("kitpvp.admin")) {
