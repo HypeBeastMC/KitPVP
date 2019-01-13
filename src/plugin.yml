@@ -3,6 +3,7 @@ version: 1.0.0
 main: me.bscal.starter.Main
 description: KitPVP plugin
 author: bscal
+depend: [ProtocolLib, EntityLib]
 commands:
   events:
     usage: /<command>
@@ -11,6 +12,9 @@ commands:
     usage: /<command>
     description: Joins an event
   start:
+    usage: /<command>
+    description: test
+  soccer:
     usage: /<command>
     description: test
 permissions:

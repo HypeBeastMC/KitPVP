@@ -3,7 +3,10 @@ package me.bscal.starter.events;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.DyeColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -12,49 +15,68 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
+import org.bukkit.material.Wool;
 import org.bukkit.util.Vector;
 
+import de.tr7zw.entlib.CustomEntity;
+import de.tr7zw.entlib.EntityLib;
+import de.tr7zw.entlib.nms.inter.PathfinderGoal;
 import me.bscal.starter.Main;
+import me.bscal.starter.Utils.Utils;
 
 public class Soccer implements Listener {
 	
 	private Team blueTeam, redTeam;
 	private Goal blueGoal, redGoal;
 	private Location ballSpawn;
-	private Slime ball;
+	private TestMob ball;
 	
 	public Soccer(Location loc) {
 		Bukkit.getServer().getPluginManager().registerEvents(this, Main.getPluginIntance());
 		ballSpawn = loc;
+		blueTeam = new Team();
+		redTeam = new Team();
 		SoccerManager.soccerInstances.add(this);
 		startMatch();
 	}
 	
 	public void startMatch() {
-		ball = (Slime) ballSpawn.getWorld().spawnEntity(ballSpawn, EntityType.SLIME);
-		ball.setSize(1);
-		ball.setMaxHealth(20);
-		ball.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 20, -3, false), false);
-		//freezeEntity(ball);
-		//ball.setCustomName("Ball");
-		//ball.setCustomNameVisible(true);
-		//ball.setBasePlate(false);
-		//ball.setVisible(true);
-		//ball.setGravity(true);
-		//ball.setHelmet(new ItemStack(Material.SKULL_ITEM));
-		//ball.setBodyPose(new EulerAngle(0, 0, 180));
-		//ball.setLeftLegPose(new EulerAngle(0, 0, 180));
-		//ball.setRightArmPose(new EulerAngle(0, 0, 180));
-
+		ball = new TestMob(ballSpawn.getWorld());
+		EntityLib.spawn(ball, ballSpawn);
+		List<Entity> entities = ballSpawn.getWorld().getEntities();
+		for (int i = 0; i < entities.size(); i++) {
+			if (entities.get(i) == ball.bukkit()) {
+				Slime s = (Slime) entities.get(i);
+				s.setSize(1);
+			}
+		}
+	}
+	
+	class NoAI extends PathfinderGoal {
+		@Override
+		public boolean shouldExecute() {
+			return true;
+		}
+		
+	    @Override
+	    public void updateTask() {
+	    	return;
+	    }
+	}
+	
+	class TestMob extends CustomEntity {
+		public TestMob(World world) {
+			super(world, EntityType.SLIME);
+			init();
+		}
+		
+		public void init() {
+			getHandler().addGoalSelector(1, new NoAI());
+		}
 	}
 	
 	public void update() {
-		//checkGoal(ball.getLocation());
-		ball.setHealth(20);
-		ball.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 20, -3, true), true);
-		
+		checkGoal(ball.bukkit().getLocation());
 	}
 	
 	public void onGoal() {
@@ -62,22 +84,29 @@ public class Soccer implements Listener {
 		redGoal.resetPlayerPosition();
 	}
 	
-	private void checkGoal(Location loc) {
-		blueGoal.isInGoal(loc);
-		redGoal.isInGoal(loc);
+	private void checkGoal(Location ballLocation) {
+		for (int y = ballLocation.getBlockY(); y > 0; y--) {
+			Location newLocation = ballLocation;
+			newLocation.setY(y);
+			if (newLocation.getBlock().getType() == Material.WOOL) {
+				Wool wool = (Wool) newLocation.getBlock().getState().getData();
+				if (wool.getColor() == DyeColor.RED) {
+					score(redTeam, "Red");
+				}
+				else if (wool.getColor() == DyeColor.BLUE) {
+					score(blueTeam, "Blue");
+				}
+			}
+
+		}
+		
+		//blueGoal.isInGoal(ballLocation);
+		//redGoal.isInGoal(ballLocation);
 	}
-	
-//	private void freezeEntity(Entity en){
-//	    net.minecraft.server.v1_8_R3.Entity nmsEn = ((CraftEntity) en).getHandle();
-//	    NBTTagCompound compound = new NBTTagCompound();
-//	    nmsEn.c(compound);
-//	    compound.setByte("NoAI", (byte) 1);
-//	    nmsEn.f(compound);
-//	}
 	
 	@EventHandler
 	public void onPowerHit(PlayerInteractEntityEvent e) {
-		if (e.getRightClicked().equals(ball)) {
+		if (e.getRightClicked().equals(ball.bukkit())) {
 			applyForce(e.getPlayer().getLocation(), 2f, 2);
 		}
 	}
@@ -98,8 +127,8 @@ public class Soccer implements Listener {
 	public void onDribble(PlayerMoveEvent e) {
 		Player player = e.getPlayer();
 		//if (isSoccerPlayer(player)) {
-			for (Entity ent : player.getNearbyEntities(2, 3, 2)) {
-				if (ent.equals(ball)) {
+			for (Entity ent : player.getNearbyEntities(1, 2, 1)) {
+				if (ent.equals(ball.bukkit())) {
 					applyForce(player.getLocation(), 1.75f, 1);
 				}
 			}
@@ -107,7 +136,12 @@ public class Soccer implements Listener {
 	}
 	
 	private void applyForce(Location loc, double multiplier, int upForce) {
-		ball.setVelocity(loc.getDirection().multiply(multiplier).add(new Vector(0,upForce, 0)));
+		ball.bukkit().setVelocity(loc.getDirection().multiply(multiplier).add(new Vector(0,upForce, 0)));
+	}
+	
+	private void score(Team team, String teamColor) {
+		team.score++;
+		Bukkit.getServer().broadcastMessage(teamColor + "team has scored");
 	}
 	
 	private boolean isSoccerPlayer(Player player) {
@@ -117,11 +151,20 @@ public class Soccer implements Listener {
 			return true;
 		return false;
 	}
+	
+	public void printScore() {
+		Bukkit.getServer().broadcastMessage(Utils.chat("&9Blue Team&7: " + blueTeam.score
+				+ " | " + "&cRed Team&7: " + redTeam.score));
+	}
 }
 
 class Team {
 	List<Player> players;
 	int score;
+	
+	Team() {
+		score = 0;
+	}
 }
 
 class Rectangle {
@@ -158,4 +201,12 @@ class Goal {
 			p.teleport(new Location(p.getWorld(), goal.x - goal.w / 2, goal.y, goal.z));
 		}
 	}
+	
+//	private void freezeEntity(Entity en){
+//    net.minecraft.server.v1_8_R3.Entity nmsEn = ((CraftEntity) en).getHandle();
+//    NBTTagCompound compound = new NBTTagCompound();
+//    nmsEn.c(compound);
+//    compound.setByte("NoAI", (byte) 1);
+//    nmsEn.f(compound);
+//}
 }

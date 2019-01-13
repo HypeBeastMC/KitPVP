@@ -3,7 +3,7 @@ package me.bscal.starter;
 import java.util.ArrayList;
 import java.util.Map;
 
-import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -29,8 +29,24 @@ public class EventStarter implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdString, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("start")) {
 			SoccerManager.soccerInstances.add(new Soccer(((Player) sender).getLocation()));
-			Bukkit.getLogger().info("started");
 		}
+		
+		if (cmd.getName().equalsIgnoreCase("soccer")) {
+			if (sender.hasPermission("soccer.admin")) {
+				if (args.length > 1) {
+					if (args[0].equalsIgnoreCase("score")) {
+						SoccerManager.soccerInstances.get(0).printScore();
+					}
+					return true;
+				}
+				else {
+					sender.sendMessage(ChatColor.RED + "Not proper commands");
+				}
+			}
+			return false;
+		}
+		
+		/////////////////
 		if (cmd.getName().equalsIgnoreCase(START_COMMAND_NAME)) {
 			// Set this to whatever permission you want
 			if (sender.hasPermission("kitpvp.admin")) {

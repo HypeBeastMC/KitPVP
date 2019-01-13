@@ -24,7 +24,6 @@ public class SoccerManager {
 			public void run() {
 				for (int i = 0; i < soccerInstances.size(); i++) {
 					soccerInstances.get(i).update();
-					Bukkit.getLogger().info("test");
 				}
 			}
 		}, 0L, 20L);
