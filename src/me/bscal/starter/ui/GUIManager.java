@@ -25,13 +25,16 @@ public class GUIManager implements Listener {
 		else if (e.getInventory().getName() == BAN_TITLE)
 			onBanInteract(e, playerClick);
 		
+
+	}
+
+	private void cleanup(InventoryClickEvent e) {
 		/**
 		 * Cleanup
 		 */
 		e.setCancelled(true);
 		e.getWhoClicked().closeInventory();
 	}
-
 
 	/**
 	 * Kit PVP GUI functionality

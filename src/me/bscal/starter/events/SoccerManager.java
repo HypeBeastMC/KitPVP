@@ -13,10 +13,6 @@ import me.bscal.starter.Main;
 public class SoccerManager {
 	static public List<Soccer> soccerInstances = new ArrayList<Soccer>();
 	
-	public SoccerManager() {
-		//soccerInstances.add(new Soccer());
-	}
-	
 	public void initSoccer() {
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPluginIntance(), new Runnable() {
 
@@ -26,6 +22,6 @@ public class SoccerManager {
 					soccerInstances.get(i).update();
 				}
 			}
-		}, 0L, 20L);
+		}, 0L, 1L);
 	}
 }

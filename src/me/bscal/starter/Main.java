@@ -6,15 +6,15 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import me.bscal.starter.config.DataManager;
 import me.bscal.starter.events.SoccerManager;
 import me.bscal.starter.listeners.KitPvpListener;
 import me.bscal.starter.listeners.SoupListener;
-import me.bscal.starter.ui.GUIManager;
 
 public class Main extends JavaPlugin {
 
 	static private BukkitScheduler scheduler;
-	static private Plugin pluginInstance;
+	static private JavaPlugin pluginInstance;
 	
 	private SoccerManager sm;
 	
@@ -25,16 +25,19 @@ public class Main extends JavaPlugin {
 		getCommand("events").setExecutor(es);
 		getCommand("join").setExecutor(es);
 		getCommand("start").setExecutor(es);
+		getCommand("soccer").setExecutor(es);
 		PluginManager pm = Bukkit.getServer().getPluginManager();
 		pm.registerEvents(new KitPvpListener(), this);
 		pm.registerEvents(new SoupListener(), this);
 		//pm.registerEvents(new GUIManager(), this);
 		
+		DataManager arenaConfig = new DataManager(this, "arenas.yml", "arenas.yml");
+		
 		sm = new SoccerManager();
 		sm.initSoccer();
 	}
 	
-	static public Plugin getPluginIntance() {
+	static public JavaPlugin getPluginIntance() {
 		return pluginInstance;
 	}
 	
