@@ -7,10 +7,12 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import me.bscal.starter.Utils.Utils;
+
 public class KitItemStacks {
 
 	public ItemStack noKit() {
-		ItemStack itemStack = new ItemStack(Material.FIRE);
+		ItemStack itemStack = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 13);
 		ItemMeta itemMeta = itemStack.getItemMeta();
 		itemMeta.setDisplayName("Nothing here");
 		ArrayList<String> lore = new ArrayList<String>();
@@ -151,6 +153,16 @@ public class KitItemStacks {
 		itemMeta.setDisplayName("Doge Kit");
 		ArrayList<String> lore = new ArrayList<String>();
 		lore.add("Wow, many doge, so kit, must pick, wow");
+		itemMeta.setLore(lore);
+		itemStack.setItemMeta(itemMeta);
+		return itemStack;
+	}
+	public ItemStack Selector() {
+		ItemStack itemStack = new ItemStack(Material.NETHER_STAR);
+		ItemMeta itemMeta = itemStack.getItemMeta();
+		itemMeta.setDisplayName(Utils.chat("&c&lKit Selector"));
+		ArrayList<String> lore = new ArrayList<String>();
+		lore.add(Utils.chat("&6&lRight Click for a kit."));
 		itemMeta.setLore(lore);
 		itemStack.setItemMeta(itemMeta);
 		return itemStack;

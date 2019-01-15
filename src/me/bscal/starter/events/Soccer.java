@@ -22,6 +22,8 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.Wool;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import de.tr7zw.entlib.CustomEntity;
@@ -117,6 +119,7 @@ public class Soccer implements Listener {
 			ball.bukkit().setHealth(20.0D);
 			Location loc = ball.bukkit().getLocation();
 			ballTexture.teleport(loc.add(OFFSET));
+			ball.bukkit().addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY , 18000, 1));
 		}
 	}
 	

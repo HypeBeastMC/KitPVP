@@ -17,6 +17,7 @@ commands:
   soccer:
     usage: /<command>
     description: test
-permissions:
-  kitpvp.admin:
-    default: op
+  pvp:
+    description: Pvp Kit!
+  hypebeast:
+    description: Main Command

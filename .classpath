@@ -17,7 +17,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="E:/_files/java/EntityLib.jar"/>
-	<classpathentry kind="lib" path="C:/Users/jonfu/Downloads/ProtocolLib.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Niko/Desktop/New folder (7)/New folder/plugins/ProtocolLib.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Niko/Desktop/New folder (7)/New folder/plugins/EntityLib.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
