@@ -13,7 +13,7 @@ import me.bscal.starter.events.SoccerManager;
 
 public class Hypebest implements CommandExecutor{
 
-
+	private final String START_COMMAND_NAME = "pre";
 	
 	private DataManager pvpConfig = new DataManager(Main.getPluginIntance(), "pvp.yml");
 	
@@ -30,7 +30,7 @@ public class Hypebest implements CommandExecutor{
 			if (sender.hasPermission("hypebeast.set")) {
 				if (args.length > 0) {
 					if (args[0].equalsIgnoreCase("score")) {
-							player.sendMessage(ChatColor.RED + "No games being played!");
+							player.sendMessage(ChatColor.RED + "&8[&cHypeBeast&8] &7No games being played!");
 							return false;
 						}
 					 

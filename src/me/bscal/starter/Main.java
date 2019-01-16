@@ -13,6 +13,7 @@ import me.bscal.starter.listeners.DeathEvent;
 import me.bscal.starter.listeners.JoinListener;
 import me.bscal.starter.listeners.KitPvpListener;
 import me.bscal.starter.listeners.SoupListener;
+import me.bscal.starter.listeners.SpamCheckListener;
 import me.bscal.starter.ui.GUIManager;
 
 public class Main extends JavaPlugin {
@@ -30,6 +31,8 @@ public class Main extends JavaPlugin {
 		getCommand("join").setExecutor(es);
 		getCommand("start").setExecutor(es);
 		getCommand("soccer").setExecutor(es);
+		
+		
 		 getCommand("pvp").setExecutor(new Pvp(this));
 		 getCommand("hypebeast").setExecutor(new Hypebest());
 		
@@ -41,6 +44,7 @@ public class Main extends JavaPlugin {
 		pm.registerEvents(new SoupListener(), this);
 		pm.registerEvents(new GUIManager(), this);
 		pm.registerEvents(new DeathEvent(), this);
+		pm.registerEvents(new SpamCheckListener(), this);
 		DataManager arenaConfig = new DataManager(this, "arenas.yml", "arenas.yml");
 		DataManager pvpConfig = new DataManager(this, "pvp.yml", "pvp.yml");
 		

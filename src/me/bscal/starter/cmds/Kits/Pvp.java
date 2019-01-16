@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.bscal.starter.Main;
+import me.bscal.starter.Utils.Utils;
 import me.bscal.starter.Utils.KitUtils.Lists;
 import me.bscal.starter.Utils.KitUtils.PvpUtils;
 import me.bscal.starter.config.DataManager;
@@ -28,10 +29,11 @@ public final Main plugin;
 public Pvp(Main instance)
 
 {
+	
   this.plugin = instance;
   
 }
-
+     private final String prefix = "&8[&cHypeBeast&8] ";
 	
 		
 	
@@ -44,15 +46,15 @@ public boolean onCommand(CommandSender sender, Command cmd, String tag, String[]
   if (cmd.getName().equalsIgnoreCase("pvp")) {
     if (!p.hasPermission("hype.pvp"))
     {
-      p.sendMessage(ChatColor.RED + "You do not have this kit do /kshop to purchase a kit!");
+      p.sendMessage(Utils.chat(prefix + "You do not have this kit do /kshop to purchase a kit!"));
     }
     else if (Lists.hasKit.contains(p.getName()))
     {
-      p.sendMessage(ChatColor.RED + "" +  ChatColor.ITALIC + "You may only have 1 kit per life!");
+      p.sendMessage(Utils.chat( "You may only have 1 kit per life!"));
     }
     else
     {
-  	   p.sendMessage(ChatColor.GOLD + "Teleporting to KitMap!");
+  	   p.sendMessage(Utils.chat(prefix + "&7Teleporting to KitMap!"));
   	  Lists.hasKit.add(p.getName());
   	      plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable()
   	      {
