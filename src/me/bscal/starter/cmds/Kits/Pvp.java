@@ -38,7 +38,7 @@ public class Pvp  implements CommandExecutor {
 			{
 				if (args[0].equalsIgnoreCase("set") && p.hasPermission("hype.admin")) {
 					pvpConfig.set("pvp.1." + args[1] + ".spawn", p.getLocation().toVector());
-					pvpConfig.set("pvp.1.world", p.getLocation().getWorld().toString());
+					pvpConfig.set("pvp.1.world", p.getLocation().getWorld().getName());
 					pvpConfig.save();
 					p.sendMessage("Saved PvpKit location " + args[1] +" to pvp.yml!");
 					return true;
@@ -80,8 +80,7 @@ public class Pvp  implements CommandExecutor {
 							}
 							Random ran = new Random();
 							int r = ran.nextInt(8);
-							Bukkit.getServer().broadcastMessage(ChatColor.RED + "HEY ADMIN! KitPVP does not have enough locations!");
-							p.teleport(pvpConfig.getVector("pvp.1." + r + ".spawn").toLocation(pvpWorld));
+							p.teleport(pvpConfig.getVector("pvp.1." + Integer.toString(r) + ".spawn").toLocation(pvpWorld));
 						}
 					}, 5L);
 					return true;
