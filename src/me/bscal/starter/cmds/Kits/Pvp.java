@@ -38,7 +38,7 @@ public class Pvp  implements CommandExecutor {
 			{
 				if (args[0].equalsIgnoreCase("set") && p.hasPermission("hype.admin")) {
 					pvpConfig.set("pvp.1." + args[1] + ".spawn", p.getLocation().toVector());
-					pvpConfig.set("pvp.1.world", p.getLocation().getWorld());
+					pvpConfig.set("pvp.1.world", p.getLocation().getWorld().toString());
 					pvpConfig.save();
 					p.sendMessage("Saved PvpKit location " + args[1] +" to pvp.yml!");
 					return true;
